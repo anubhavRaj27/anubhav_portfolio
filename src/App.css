@@ -1,0 +1,290 @@
+.app-shell {
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.hero-section {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #f8f8f4;
+}
+
+.scene-root {
+  position: absolute;
+  inset: 0;
+}
+
+.scene-root canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.hero-header,
+.hero-badge,
+.hero-copy {
+  pointer-events: auto;
+}
+
+.hero-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand-mark {
+  display: grid;
+  text-decoration: none;
+  color: #151515;
+  font-size: clamp(1.2rem, 2.4vw, 2rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+}
+
+.hero-nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.hero-nav a {
+  color: #222;
+  text-decoration: none;
+  font-size: 0.92rem;
+}
+
+.hero-cta {
+  text-decoration: none;
+  color: #141414;
+  background: #d9ff1f;
+  border: 1px solid #bfdc29;
+  border-radius: 999px;
+  padding: 0.8rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.hero-badge {
+  align-self: flex-start;
+  margin-top: auto;
+  margin-bottom: 1.5rem;
+  width: 5.1rem;
+  border: 1px solid #8c8c87;
+  border-radius: 0.55rem;
+  background: #fcfcf7d6;
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+}
+
+.badge-label,
+.badge-title,
+.badge-note {
+  margin: 0;
+  padding: 0.55rem 0.35rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #343434;
+}
+
+.badge-label,
+.badge-note {
+  font-size: 0.47rem;
+}
+
+.badge-title {
+  font-size: 0.58rem;
+  font-weight: 700;
+}
+
+.badge-divider {
+  height: 1px;
+  background: #b6b6b0;
+}
+
+.hero-copy {
+  max-width: 36rem;
+  margin-top: auto;
+  padding-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #3f3f3f;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.7rem;
+}
+
+.hero-copy h1 {
+  margin: 0.75rem 0 0;
+  color: #121212;
+  font-size: clamp(2.8rem, 7vw, 6rem);
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+
+.hero-description {
+  margin: 1rem 0 0;
+  color: #2f2f2f;
+  max-width: 32rem;
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+.primary-link,
+.secondary-link,
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.85rem 1.1rem;
+  font-weight: 700;
+}
+
+.primary-link {
+  background: #111;
+  color: #fff;
+}
+
+.secondary-link {
+  color: #111;
+  border: 1px solid #b8b8b2;
+  background: #ffffffc9;
+}
+
+.content-section {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 5vw, 5rem);
+}
+
+.about-section {
+  background: #f6f7fb;
+  color: #111827;
+}
+
+.work-section {
+  background: #10131b;
+  color: #f7f9ff;
+}
+
+.contact-section {
+  background: #eef2fa;
+  color: #111827;
+}
+
+.section-inner {
+  max-width: 70rem;
+  margin: 0 auto;
+}
+
+.section-kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.75rem;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.content-section h2 {
+  margin: 0.8rem 0 0;
+  max-width: 52rem;
+  font-size: clamp(2rem, 4.4vw, 3.8rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.content-section p {
+  max-width: 44rem;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.project-card {
+  padding: 1.35rem;
+  border-radius: 1rem;
+  background: #181d27;
+  border: 1px solid #283142;
+}
+
+.project-card h3 {
+  margin: 0;
+  color: #f6f8ff;
+  font-size: 1.1rem;
+}
+
+.project-card p {
+  margin: 0.75rem 0 0;
+  color: #c8d1e4;
+  max-width: none;
+}
+
+.contact-link {
+  margin-top: 1rem;
+  background: #111827;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .hero-header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .hero-nav {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-overlay {
+    padding: 1rem;
+  }
+
+  .hero-copy {
+    padding-bottom: 1rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-badge {
+    margin-bottom: 1rem;
+  }
+}
