@@ -1,9 +1,11 @@
 import { motion as Motion, useReducedMotion } from 'framer-motion'
 import ScrambleHeading from './ScrambleHeading.jsx'
+import { profile } from '../data/content.js'
 
 const navItems = [
   { href: '#home', label: 'Home' },
   { href: '#about', label: 'About' },
+  { href: '#experience', label: 'Experience' },
   { href: '#work', label: 'Work' },
   { href: '#contact', label: 'Contact' },
 ]
@@ -52,14 +54,14 @@ export default function HeroOverlay({ visible }) {
       >
         <p className="badge-label">Frontend</p>
         <div className="badge-divider" />
-        <p className="badge-title">React Portfolio</p>
+        <p className="badge-title">React &amp; TypeScript</p>
         <div className="badge-divider" />
-        <p className="badge-note">Three.js Hero</p>
+        <p className="badge-note">DecoverHq</p>
       </Motion.aside>
 
       <div className="hero-copy">
         <Motion.p className="eyebrow" {...rise(visible, 0.12)}>
-          Creative Developer
+          {profile.role}
         </Motion.p>
 
         <Motion.div
@@ -67,12 +69,12 @@ export default function HeroOverlay({ visible }) {
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.2 }}
         >
-          <ScrambleHeading text="Anubhav Raj" active={visible && !reduced} />
+          <ScrambleHeading text={profile.name} active={visible && !reduced} />
         </Motion.div>
 
         <Motion.p className="hero-description" {...rise(visible, 0.45)}>
-          Building polished portfolio experiences with React, motion, and immersive
-          WebGL interactions.
+          {profile.tagline}. Currently building product frontends at DecoverHq with
+          React, TypeScript, and a focus on performance.
         </Motion.p>
 
         <Motion.div className="hero-actions" {...rise(visible, 0.58)}>

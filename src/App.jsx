@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import HeroAvatar from './components/HeroAvatar.jsx'
 import HeroOverlay from './components/HeroOverlay.jsx'
-import HeroScene from './components/HeroScene.jsx'
+import LiquidBackdrop from './components/LiquidBackdrop.jsx'
 import Loader from './components/Loader.jsx'
 import PageSections from './components/PageSections.jsx'
 
@@ -30,7 +31,8 @@ function App() {
 
       <main className="app-shell">
         <section className="hero-section" id="home">
-          <HeroScene />
+          <LiquidBackdrop />
+          <HeroAvatar active={heroVisible} />
           <HeroOverlay visible={heroVisible} />
         </section>
         <PageSections />

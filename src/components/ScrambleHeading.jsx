@@ -13,7 +13,9 @@ const DURATION = 800
  */
 export default function ScrambleHeading({ text, active, className }) {
   const chars = [...text]
-  const [display, setDisplay] = useState(chars)
+  // null means "at rest": the overlay is unmounted and the real glyphs show,
+  // so the heading's text content is the actual name for crawlers and copy.
+  const [display, setDisplay] = useState(null)
   const rafRef = useRef(0)
 
   useEffect(() => {
@@ -22,6 +24,10 @@ export default function ScrambleHeading({ text, active, className }) {
     const start = performance.now()
     const tick = (now) => {
       const progress = Math.min((now - start) / DURATION, 1)
+      if (progress >= 1) {
+        setDisplay(null)
+        return
+      }
       setDisplay(
         chars.map((char, index) =>
           char === ' ' || index / chars.length < progress
@@ -29,7 +35,7 @@ export default function ScrambleHeading({ text, active, className }) {
             : GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)],
         ),
       )
-      if (progress < 1) rafRef.current = requestAnimationFrame(tick)
+      rafRef.current = requestAnimationFrame(tick)
     }
 
     rafRef.current = requestAnimationFrame(tick)
@@ -39,11 +45,15 @@ export default function ScrambleHeading({ text, active, className }) {
 
   return (
     <h1 className={className} aria-label={text}>
-      <span className="scramble" aria-hidden="true">
+      <span
+        className="scramble"
+        aria-hidden="true"
+        data-scrambling={display ? 'true' : 'false'}
+      >
         {chars.map((char, index) => (
           <span key={index} className="scramble-cell">
             <span className="scramble-ghost">{char}</span>
-            <span className="scramble-live">{display[index]}</span>
+            {display && <span className="scramble-live">{display[index]}</span>}
           </span>
         ))}
       </span>
