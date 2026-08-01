@@ -132,6 +132,13 @@ export default function useHeroScene(mountRef) {
     renderer.setSize(width, height)
     mount.appendChild(renderer.domElement)
 
+    // The render loop only starts once both remote models resolve, and the
+    // renderer is opaque by default, so without this the canvas composites as
+    // black until then. Match .hero-section so a slow load degrades to a flat
+    // cream field instead.
+    renderer.setClearColor(0xf8f8f4, 1)
+    renderer.clear()
+
     const camShift = new THREE.Vector3(0, 1, 0)
     const controls = new OrbitControls(camera, renderer.domElement)
     controls.enableDamping = true

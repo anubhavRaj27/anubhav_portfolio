@@ -14,7 +14,15 @@
 
 html {
   height: 100%;
-  scroll-behavior: smooth;
+  /* Reserve the scrollbar so locking scroll for the loader cannot shift the
+     page sideways on the exact frame the wipe reveals it. */
+  scrollbar-gutter: stable;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {

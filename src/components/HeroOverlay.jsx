@@ -1,3 +1,6 @@
+import { motion as Motion, useReducedMotion } from 'framer-motion'
+import ScrambleHeading from './ScrambleHeading.jsx'
+
 const navItems = [
   { href: '#home', label: 'Home' },
   { href: '#about', label: 'About' },
@@ -5,51 +8,81 @@ const navItems = [
   { href: '#contact', label: 'Contact' },
 ]
 
-export default function HeroOverlay() {
+const EASE_OUT = [0.16, 1, 0.3, 1]
+
+const rise = (visible, delay, distance = 20) => ({
+  initial: { opacity: 0, y: distance },
+  animate: visible ? { opacity: 1, y: 0 } : {},
+  transition: { duration: 0.7, ease: EASE_OUT, delay },
+})
+
+export default function HeroOverlay({ visible }) {
+  const reduced = useReducedMotion()
+
   return (
     <div className="hero-overlay">
       <header className="hero-header">
-        <a href="#home" className="brand-mark" aria-label="Portfolio home">
+        <Motion.a
+          href="#home"
+          className="brand-mark"
+          aria-label="Portfolio home"
+          {...rise(visible, 0, -16)}
+        >
           <span>ANUBHAV</span>
           <span>RAJ</span>
-        </a>
+        </Motion.a>
 
-        <nav className="hero-nav" aria-label="Primary">
+        <Motion.nav className="hero-nav" aria-label="Primary" {...rise(visible, 0.1, -16)}>
           {navItems.map((item) => (
             <a key={item.href} href={item.href}>
               {item.label}
             </a>
           ))}
-        </nav>
+        </Motion.nav>
 
-        <a href="#contact" className="hero-cta">
+        <Motion.a href="#contact" className="hero-cta" {...rise(visible, 0.18, -16)}>
           Let&apos;s Talk
-        </a>
+        </Motion.a>
       </header>
 
-      <aside className="hero-badge" aria-label="Quick profile card">
+      <Motion.aside
+        className="hero-badge"
+        aria-label="Quick profile card"
+        {...rise(visible, 0.55)}
+      >
         <p className="badge-label">Frontend</p>
         <div className="badge-divider" />
         <p className="badge-title">React Portfolio</p>
         <div className="badge-divider" />
         <p className="badge-note">Three.js Hero</p>
-      </aside>
+      </Motion.aside>
 
       <div className="hero-copy">
-        <p className="eyebrow">Creative Developer</p>
-        <h1>Anubhav Raj</h1>
-        <p className="hero-description">
+        <Motion.p className="eyebrow" {...rise(visible, 0.12)}>
+          Creative Developer
+        </Motion.p>
+
+        <Motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={visible ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.2 }}
+        >
+          <ScrambleHeading text="Anubhav Raj" active={visible && !reduced} />
+        </Motion.div>
+
+        <Motion.p className="hero-description" {...rise(visible, 0.45)}>
           Building polished portfolio experiences with React, motion, and immersive
           WebGL interactions.
-        </p>
-        <div className="hero-actions">
+        </Motion.p>
+
+        <Motion.div className="hero-actions" {...rise(visible, 0.58)}>
           <a href="#work" className="primary-link">
             View Work
           </a>
           <a href="#about" className="secondary-link">
             About Me
           </a>
-        </div>
+        </Motion.div>
       </div>
     </div>
   )

@@ -287,4 +287,194 @@
   .hero-badge {
     margin-bottom: 1rem;
   }
+
+  .loader-hud {
+    padding: 1.5rem;
+  }
+}
+
+/* ==========================================================================
+   Scrambled heading
+
+   Each character sits in its own cell sized by a hidden copy of its final
+   glyph, so the line occupies an identical width on every frame. Without
+   this, swapping a narrow letter for a wide one overflows .hero-copy's
+   36rem and wraps the heading, pushing the copy below it out of view.
+   ========================================================================== */
+
+.hero-copy h1 .scramble {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-copy h1 .scramble-cell {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-copy h1 .scramble-ghost {
+  visibility: hidden;
+  white-space: pre;
+}
+
+.hero-copy h1 .scramble-live {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: pre;
+}
+
+/* ==========================================================================
+   Entrance loader
+   ========================================================================== */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0a0a0a;
+  touch-action: none;
+}
+
+.loader-hud {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2.2rem 3rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.loader-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(232, 64, 12, 0.8);
+}
+
+.loader-dot {
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #e8400c;
+}
+
+.loader-progress-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.55rem;
+}
+
+.loader-progress-label {
+  font-size: 0.5625rem;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(234, 228, 213, 0.22);
+}
+
+.loader-count {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(234, 228, 213, 0.6);
+  transition: color 0.4s ease;
+}
+
+.loader-count[data-warm='true'] {
+  color: #e8400c;
+}
+
+.loader-track {
+  position: relative;
+  height: 1px;
+  background: rgba(234, 228, 213, 0.07);
+}
+
+.loader-track-fill {
+  position: absolute;
+  inset: 0;
+  background: #e8400c;
+  transform-origin: left;
+}
+
+.loader-track-head {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  margin: -2px 0 0 -2px;
+  border-radius: 50%;
+  background: #e8400c;
+  box-shadow: 0 0 8px 3px rgba(232, 64, 12, 0.5);
+}
+
+.loader-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  pointer-events: none;
+}
+
+/* No webfont is loaded anywhere on this site, so the condensed display look
+   is faked with a horizontal squeeze rather than pulling in Google Fonts in
+   front of the first paint. Weight 800 because index.css sets
+   font-synthesis: none, so 900 would not be synthesized. */
+.loader-word {
+  display: flex;
+  gap: 0.06em;
+  overflow: hidden;
+  font-size: clamp(2.4rem, 7vw, 6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(234, 228, 213, 1);
+  transform: scaleX(0.85);
+  transform-origin: center;
+  user-select: none;
+}
+
+.loader-letter {
+  display: block;
+}
+
+.loader-rule {
+  height: 1px;
+  width: clamp(120px, 18vw, 280px);
+  background: linear-gradient(to right, transparent, #e8400c, transparent);
+  transform-origin: center;
+}
+
+.loader-tagline {
+  font-size: 0.625rem;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(232, 64, 12, 0.55);
+}
+
+.loader-wipe {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: #0a0a0a;
+  box-shadow: 0 2px 0 0 #e8400c, 0 4px 20px 0 rgba(232, 64, 12, 0.25);
 }
