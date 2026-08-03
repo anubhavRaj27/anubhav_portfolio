@@ -29,6 +29,26 @@
   height: 100%;
 }
 
+/* Legibility scrim. The contour lines are bright by design, so instead of
+   dimming them the text column gets a wash to sit on: strong at the left where
+   the copy lives, clear by 60% across where the lines should read. Sits above
+   .liquid-root (z-index 0) and below .hero-overlay (2) and .hero-avatar (3). */
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(10, 10, 10, 0.93) 0%,
+      rgba(10, 10, 10, 0.74) 30%,
+      rgba(10, 10, 10, 0) 60%
+    ),
+    linear-gradient(to top, rgba(10, 10, 10, 0.55) 0%, rgba(10, 10, 10, 0) 38%);
+}
+
 /* ==========================================================================
    Hero overlay
    ========================================================================== */

@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import * as THREE from 'three'
+import { useEffect } from "react";
+import * as THREE from "three";
 
 // One domain-warped fractal noise field drives both layers: the soft fill comes
 // from the field value, the contour lines from the fractional part of that same
@@ -12,7 +12,7 @@ const VERTEX_SHADER = /* glsl */ `
     vUv = uv;
     gl_Position = vec4(position.xy, 0.0, 1.0);
   }
-`
+`;
 
 const FRAGMENT_SHADER = /* glsl */ `
   precision highp float;
@@ -108,15 +108,15 @@ const FRAGMENT_SHADER = /* glsl */ `
 
     gl_FragColor = vec4(color, 1.0);
   }
-`
+`;
 
 export default function useLiquidBackdrop(mountRef, { reduced = false } = {}) {
   useEffect(() => {
-    const mount = mountRef.current
-    if (!mount) return undefined
+    const mount = mountRef.current;
+    if (!mount) return undefined;
 
-    const width = mount.clientWidth || window.innerWidth
-    const height = mount.clientHeight || window.innerHeight
+    const width = mount.clientWidth || window.innerWidth;
+    const height = mount.clientHeight || window.innerHeight;
 
     const uniforms = {
       uTime: { value: 0 },
@@ -125,19 +125,16 @@ export default function useLiquidBackdrop(mountRef, { reduced = false } = {}) {
       uPointerStrength: { value: reduced ? 0 : 0.34 },
       uScale: { value: 1.55 },
       uRings: { value: 9.0 },
-      uLineWidth: { value: 1.4 },
+      uLineWidth: { value: 2.1 },
       uBlobStrength: { value: 1.0 },
-      uLineStrength: { value: 0.9 },
-      // Dark field. The blob sits only a few levels above the base so it reads
-      // as depth rather than as a shape, and the contour lines carry a slight
-      // warm cast to tie into the orange accent.
+      uLineStrength: { value: 1.0 },
       uBase: { value: new THREE.Color(0x0a0a0a) },
       uBlobColor: { value: new THREE.Color(0x1a1714) },
-      uLineColor: { value: new THREE.Color(0x453a30) },
-    }
+      uLineColor: { value: new THREE.Color(0xc4bdb0) },
+    };
 
-    const scene = new THREE.Scene()
-    const camera = new THREE.Camera()
+    const scene = new THREE.Scene();
+    const camera = new THREE.Camera();
     const mesh = new THREE.Mesh(
       new THREE.PlaneGeometry(2, 2),
       new THREE.ShaderMaterial({
@@ -146,91 +143,95 @@ export default function useLiquidBackdrop(mountRef, { reduced = false } = {}) {
         uniforms,
         depthWrite: false,
       }),
-    )
-    scene.add(mesh)
+    );
+    scene.add(mesh);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: false })
+    const renderer = new THREE.WebGLRenderer({ antialias: false });
     // The field is deliberately soft, so a sub-native buffer is invisible here
     // and buys back most of the cost of running a fullscreen noise shader.
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1))
-    renderer.setSize(width, height)
-    mount.appendChild(renderer.domElement)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1));
+    renderer.setSize(width, height);
+    mount.appendChild(renderer.domElement);
 
-    const pointerTarget = new THREE.Vector2(0, 0)
-    let hasPointer = false
+    const pointerTarget = new THREE.Vector2(0, 0);
+    let hasPointer = false;
 
     const handlePointerMove = (event) => {
-      const rect = renderer.domElement.getBoundingClientRect()
-      if (!rect.width || !rect.height) return
+      const rect = renderer.domElement.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
       pointerTarget.set(
-        ((event.clientX - rect.left) / rect.width - 0.5) * (rect.width / rect.height),
+        ((event.clientX - rect.left) / rect.width - 0.5) *
+          (rect.width / rect.height),
         -((event.clientY - rect.top) / rect.height - 0.5),
-      )
-      hasPointer = true
-    }
+      );
+      hasPointer = true;
+    };
 
-    if (!reduced) window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    if (!reduced)
+      window.addEventListener("pointermove", handlePointerMove, {
+        passive: true,
+      });
 
-    const clock = new THREE.Clock()
-    let elapsed = 0
+    const clock = new THREE.Clock();
+    let elapsed = 0;
 
     const renderFrame = () => {
-      renderer.render(scene, camera)
-    }
+      renderer.render(scene, camera);
+    };
 
     const tick = () => {
-      elapsed += Math.min(clock.getDelta(), 0.05)
-      uniforms.uTime.value = elapsed
-      if (hasPointer) uniforms.uPointer.value.lerp(pointerTarget, 0.045)
-      renderFrame()
-    }
+      elapsed += Math.min(clock.getDelta(), 0.05);
+      uniforms.uTime.value = elapsed;
+      if (hasPointer) uniforms.uPointer.value.lerp(pointerTarget, 0.045);
+      renderFrame();
+    };
 
     // Reduced motion gets a single static frame instead of a live loop.
-    let running = false
+    let running = false;
     const start = () => {
-      if (running || reduced) return
-      running = true
-      clock.getDelta()
-      renderer.setAnimationLoop(tick)
-    }
+      if (running || reduced) return;
+      running = true;
+      clock.getDelta();
+      renderer.setAnimationLoop(tick);
+    };
     const stop = () => {
-      running = false
-      renderer.setAnimationLoop(null)
-    }
+      running = false;
+      renderer.setAnimationLoop(null);
+    };
 
-    if (reduced) renderFrame()
-    else start()
+    if (reduced) renderFrame();
+    else start();
 
     // Nothing below the fold needs a fullscreen noise shader still burning GPU.
     const intersectionObserver = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) start()
-        else stop()
+        if (entry.isIntersecting) start();
+        else stop();
       },
       { threshold: 0 },
-    )
-    intersectionObserver.observe(mount)
+    );
+    intersectionObserver.observe(mount);
 
     const resizeObserver = new ResizeObserver(() => {
-      const nextWidth = mount.clientWidth || window.innerWidth
-      const nextHeight = mount.clientHeight || window.innerHeight
-      renderer.setSize(nextWidth, nextHeight)
-      uniforms.uAspect.value = nextWidth / nextHeight
-      if (reduced) renderFrame()
-    })
-    resizeObserver.observe(mount)
+      const nextWidth = mount.clientWidth || window.innerWidth;
+      const nextHeight = mount.clientHeight || window.innerHeight;
+      renderer.setSize(nextWidth, nextHeight);
+      uniforms.uAspect.value = nextWidth / nextHeight;
+      if (reduced) renderFrame();
+    });
+    resizeObserver.observe(mount);
 
     return () => {
-      intersectionObserver.disconnect()
-      resizeObserver.disconnect()
-      stop()
-      window.removeEventListener('pointermove', handlePointerMove)
-      mesh.geometry.dispose()
-      mesh.material.dispose()
-      renderer.dispose()
+      intersectionObserver.disconnect();
+      resizeObserver.disconnect();
+      stop();
+      window.removeEventListener("pointermove", handlePointerMove);
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+      renderer.dispose();
       if (renderer.domElement.parentNode === mount) {
-        mount.removeChild(renderer.domElement)
+        mount.removeChild(renderer.domElement);
       }
-    }
-  }, [mountRef, reduced])
+    };
+  }, [mountRef, reduced]);
 }
